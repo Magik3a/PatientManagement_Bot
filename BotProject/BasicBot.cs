@@ -27,6 +27,7 @@ namespace Microsoft.BotBuilderSamples
         public const string CancelIntent = "Cancel";
         public const string HelpIntent = "Help";
         public const string NoneIntent = "None";
+        public const string GeneralInfoIntent = "General_Info";
 
         // Supported Calendar LUIS Intents
         public const string CalendarAddIntent = "Calendar_Add";
@@ -43,14 +44,21 @@ namespace Microsoft.BotBuilderSamples
         public static readonly string LuisConfiguration = "BasicBotLuisApplication";
 
         private readonly BotServices _services;
+        private readonly UserState _userState;
+        private readonly ConversationState _conversationState;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicBot"/> class.
         /// </summary>
         /// <param name="botServices">Bot services.</param>
-        public BasicBot(BotServices services, ILoggerFactory loggerFactory)
+        /// <param name="conversationState">Bot conversation state.</param>
+        /// <param name="userState">Bot user state.</param>
+        public BasicBot(BotServices botServices, ConversationState conversationState, UserState userState, ILoggerFactory loggerFactory)
         {
-            _services = services ?? throw new ArgumentNullException(nameof(services));
+            _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
+            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _userState = userState ?? throw new ArgumentNullException(nameof(userState));
 
             // Verify LUIS configuration.
             if (!_services.LuisServices.ContainsKey(LuisConfiguration))
@@ -86,6 +94,11 @@ namespace Microsoft.BotBuilderSamples
                     case GreetingIntent:
                         await turnContext.SendActivityAsync("Hello.");
                         break;
+                    case GeneralInfoIntent:
+
+                        var welcomeCard = CreateAdaptiveCardAttachment(@".\Resources\welcomeCard.json");
+                        await turnContext.SendActivityAsync(CreateResponse(activity, welcomeCard)).ConfigureAwait(false);
+                        break;
                     case HelpIntent:
                         await turnContext.SendActivityAsync("Let me try to provide some help.");
                         await turnContext.SendActivityAsync("I understand greetings, being asked for help, being asked for login you in Clario Admin, or being asked to cancel what I am doing.");
@@ -95,8 +108,7 @@ namespace Microsoft.BotBuilderSamples
                         break;
                     case OnDeviceLogInIntent:
                         var inputLogInCard = CreateAdaptiveCardAttachment(@".\Resources\inputLogInCard.json");
-                        var response = CreateResponse(activity, inputLogInCard);
-                        await turnContext.SendActivityAsync(response).ConfigureAwait(false);
+                        await turnContext.SendActivityAsync(CreateResponse(activity, inputLogInCard)).ConfigureAwait(false);
                         break;
                     case CalendarFindIntent:
                         await turnContext.SendActivityAsync("Searching for events in your calendar");
@@ -123,9 +135,8 @@ namespace Microsoft.BotBuilderSamples
                         // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
                         if (member.Id != activity.Recipient.Id)
                         {
-                            var welcomeCard = CreateAdaptiveCardAttachment(@".\Resources\welcomeCard.json");
-                            var response = CreateResponse(activity, welcomeCard);
-                            await turnContext.SendActivityAsync(response).ConfigureAwait(false);
+                            await turnContext.SendActivityAsync("Hello, Nice to talk with you!");
+                            await turnContext.SendActivityAsync("Ask for info or help if you have problems.");
                         }
                     }
                 }
