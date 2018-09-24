@@ -1,0 +1,49 @@
+{
+  "name": "Clario",
+  "padlock": "",
+  "version": "2.0",
+  "services": [
+    {
+      "tenantId": "",
+      "subscriptionId": "",
+      "resourceGroup": "Clario",
+      "serviceName": "Clario",
+      "type": "abs",
+      "name": "Clario",
+      "id": "1"
+    },
+    {
+      "connectionString": "",
+      "tenantId": "",
+      "subscriptionId": "",
+      "resourceGroup": "Clario",
+      "serviceName": "clarioafc6",
+      "type": "blob",
+      "id": "2"
+    },
+    {
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "http://localhost:3978/api/messages",
+      "type": "endpoint",
+      "name": "development",
+      "id": "3"
+    },
+    {
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "https://clario.azurewebsites.net/api/messages",
+      "type": "endpoint",
+      "name": "production",
+      "id": "4"
+    },
+    {
+      "appId": "",
+      "authoringKey": "",
+      "region": "",
+      "type": "luis",
+      "name": "BasicBotLuisApplication",
+      "id": "5"
+    }
+  ]
+}
