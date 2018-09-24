@@ -2,8 +2,13 @@
 This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com),
 - Use [LUIS](https://luis.ai) to implement core AI capabilities
 
+# Channels
+## Facebook Messenger
+- http://m.me/clariomanagement
+## Skype
+- https://join.skype.com/bot/43c12ecf-e809-4cb2-8849-48f084e0bdfd?add
+
 # Prerequisite to run this bot locally
-- Download the bot code from the Build blade in the Azure Portal
 - Update the `appsettings.json` file in the root of the bot project with the botFilePath and botFileSecret 
 - You can find the botFilePath and botFileSecret in the Azure App Service application settings.
 
@@ -30,7 +35,7 @@ their bots on localhost or running remotely through a tunnel.
 ### Connect to bot using Bot Framework Emulator
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to the bot project folder
-- Select `<your-bot-name>.bot` file
+- Select `Clario.bot` file
 
 # Deploy this bot to Azure
 ## Publish from Visual Studio
