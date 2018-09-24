@@ -5,7 +5,7 @@
   "body": [
     {
       "type": "Image",
-      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+      "url": "http://clario.site/assets/img/images/clario-featured.jpg",
       "size": "stretch"
     },
     {
@@ -13,7 +13,7 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "Welcome to Bot Framework!",
+      "text": "Hi friend! I am Clario Bot :)",
       "wrap": true,
       "maxLines": 0
     },
@@ -21,7 +21,7 @@
       "type": "TextBlock",
       "size": "default",
       "isSubtle": "yes",
-      "text": "Now that you have successfully run your bot, follow the links in this Adaptive Card to expand your knowledge of Bot Framework.",
+      "text": "Now its time to do some work. If you want, consider reading the documentation, get in touch with the master or check the official website. \r Login if you want to work with the Clario Admin System",
       "wrap": true,
       "maxLines": 0
     }
@@ -29,18 +29,18 @@
   "actions": [
     {
       "type": "Action.OpenUrl",
-      "title": "Get an overview",
-      "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+      "title": "Clario Official Site",
+      "url": "http://clario.site/"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Ask a question",
-      "url": "https://stackoverflow.com/questions/tagged/botframework"
+      "title": "Svetlin Krastanov's Site",
+      "url": "http://s2kdesign.com/"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Learn how to deploy",
-      "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
+      "title": "Learn what orders i support",
+      "url": "https://help.clario.site/"
     }
   ]
 }

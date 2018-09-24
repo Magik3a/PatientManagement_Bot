@@ -28,6 +28,14 @@ namespace Microsoft.BotBuilderSamples
         public const string HelpIntent = "Help";
         public const string NoneIntent = "None";
 
+        // Supported Calendar LUIS Intents
+        public const string CalendarAddIntent = "Calendar_Add";
+        public const string CalendarFindIntent = "Calendar_Find";
+        public const string CalendarEditIntent = "Calendar_Edit";
+
+        // Supported OnDevice LUIS Intents
+        public const string OnDeviceLogInIntent = "OnDevice_LogIn";
+
         /// <summary>
         /// Key in the bot config (.bot file) for the LUIS instance.
         /// In the .bot file, multiple instances of LUIS can be configured.
@@ -80,10 +88,21 @@ namespace Microsoft.BotBuilderSamples
                         break;
                     case HelpIntent:
                         await turnContext.SendActivityAsync("Let me try to provide some help.");
-                        await turnContext.SendActivityAsync("I understand greetings, being asked for help, or being asked to cancel what I am doing.");
+                        await turnContext.SendActivityAsync("I understand greetings, being asked for help, being asked for login you in Clario Admin, or being asked to cancel what I am doing.");
                         break;
                     case CancelIntent:
                         await turnContext.SendActivityAsync("I have nothing to cancel.");
+                        break;
+                    case OnDeviceLogInIntent:
+                        var inputLogInCard = CreateAdaptiveCardAttachment(@".\Resources\inputLogInCard.json");
+                        var response = CreateResponse(activity, inputLogInCard);
+                        await turnContext.SendActivityAsync(response).ConfigureAwait(false);
+                        break;
+                    case CalendarFindIntent:
+                        await turnContext.SendActivityAsync("Searching for events in your calendar");
+                        break;
+                    case CalendarAddIntent:
+                        await turnContext.SendActivityAsync("Add event in your calendar");
                         break;
                     case NoneIntent:
                     default:
@@ -104,7 +123,7 @@ namespace Microsoft.BotBuilderSamples
                         // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
                         if (member.Id != activity.Recipient.Id)
                         {
-                            var welcomeCard = CreateAdaptiveCardAttachment();
+                            var welcomeCard = CreateAdaptiveCardAttachment(@".\Resources\welcomeCard.json");
                             var response = CreateResponse(activity, welcomeCard);
                             await turnContext.SendActivityAsync(response).ConfigureAwait(false);
                         }
@@ -123,9 +142,9 @@ namespace Microsoft.BotBuilderSamples
         }
 
         // Load attachment from file.
-        private Attachment CreateAdaptiveCardAttachment()
+        private Attachment CreateAdaptiveCardAttachment(string cardFilePath)
         {
-            var adaptiveCard = File.ReadAllText(@".\Resources\welcomeCard.json");
+            var adaptiveCard = File.ReadAllText(cardFilePath);
             return new Attachment()
             {
                 ContentType = "application/vnd.microsoft.card.adaptive",
