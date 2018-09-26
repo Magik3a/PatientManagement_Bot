@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq;
+using BasicBot.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -59,12 +60,13 @@ namespace Microsoft.BotBuilderSamples
             // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
             // Un-comment the following lines to use Azure Blob Storage
             // Storage configuration name or ID from the .bot file.
-            const string storageConfigurationId = "2";
-            var blobConfig = botConfig.FindServiceByNameOrId(storageConfigurationId);
-            if (!(blobConfig is BlobStorageService blobStorageConfig))
-            {
-                throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{storageConfigurationId}'.");
-            }
+            // const string storageConfigurationId = "2";
+            // var blobConfig = botConfig.FindServiceByNameOrId(storageConfigurationId);
+            // if (!(blobConfig is BlobStorageService blobStorageConfig))
+            // {
+            //     throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{storageConfigurationId}'.");
+            // }
+               
             // // Default container name.
             // const string DefaultBotContainer = "botstate";
             // var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
@@ -107,6 +109,22 @@ namespace Microsoft.BotBuilderSamples
                 // var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
                 // options.Middleware.Add(transcriptMiddleware);
 
+                // Content Moderation Middleware (analyzes incoming messages for inappropriate content including PII, profanity, etc.)
+                var moderatorService = botConfig.Services.FirstOrDefault(s => s.Name == ContentModeratorMiddleware.ServiceName);
+                if (moderatorService != null)
+                {
+                    var moderator = moderatorService as GenericService;
+                    var moderatorKey = moderator.Configuration["subscriptionKey"];
+                    var moderatorRegion = moderator.Configuration["region"];
+                    var moderatorMiddleware = new ContentModeratorMiddleware(moderatorKey, moderatorRegion);
+                    options.Middleware.Add(moderatorMiddleware);
+                }
+
+                // Typing Middleware (automatically shows typing when the bot is responding/working)
+                var typingMiddleware = new ShowTypingMiddleware();
+                options.Middleware.Add(typingMiddleware);
+
+                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }
 
