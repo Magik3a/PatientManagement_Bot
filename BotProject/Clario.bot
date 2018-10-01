@@ -42,8 +42,8 @@
       "authoringKey": "",
       "region": "",
       "type": "luis",
-      "name": "BasicBotLuisApplication",
       "id": "5"
+      "name": "ClarioLUIS",
     }
   ]
 }
